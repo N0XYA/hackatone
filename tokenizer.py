@@ -5,6 +5,9 @@ import emoji
 import string
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+import pymorphy2
+
+
 
 def preprocess_text(text):
     text = re.sub(r'http\S+', '', text)
@@ -19,8 +22,8 @@ def preprocess_text(text):
     stop_words = set(stopwords.words('russian'))
     filtered_tokens = [token for token in tokens if token not in stop_words]
 
-    lemmatizer = WordNetLemmatizer()
-    lemmatized_tokens = [lemmatizer.lemmatize(token) for token in filtered_tokens]
+    morph = pymorphy2.MorphAnalyzer()
+    lemmatized_tokens = [morph.parse(word)[0].normal_form for word in filtered_tokens]
 
     return ' '.join(lemmatized_tokens)
 
