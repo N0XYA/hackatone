@@ -25,7 +25,6 @@ def upload_csv(csv_file: UploadFile = File(...)):
     news = dataframe["text"].tolist()
     result = {}
     labels = []
-    refactored_text = []
 
     for i in range(len(dataframe)):
         buffer = tokenizer.preprocess_text(news[i])
@@ -39,22 +38,6 @@ def upload_csv(csv_file: UploadFile = File(...)):
     response = FileResponse(file_path, media_type="text/csv")
     response.headers["Content-Disposition"] = "attachment; filename=downloaded_file.csv"
     return response
-
-# @app.get("/download")
-# def download():
-#
-@app.post("/")
-def Hackatone(input:input_list):
-    for item in input.list:
-        print(item)
-        print(type(item))
-    result = {}
-    for news in input.list:
-        buffer = tokenizer.preprocess_text(news)
-        label = classifier.classify_text(buffer)
-        result[label] = buffer
-        print(label, buffer)
-    return json.dumps(result)
 
 
 if __name__ == '__main__':
