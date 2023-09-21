@@ -1,7 +1,6 @@
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import make_pipeline
-import pandas as pd
 import tokenizer
 import keyword_lists
 
@@ -43,11 +42,12 @@ def classify_text(text):
         category = model.predict([text])[0]
         return category
 
-df = tokenizer.get_preprocessed_df(100)
-df['category'] = df['preprocessed_text'].apply(classify_text)
 
-output_file = 'output.xlsx'
-
-df[['text', 'preprocessed_text', 'category']].to_excel(output_file, sheet_name="данные", index=False)
+# df = tokenizer.get_preprocessed_df(100)
+# df['category'] = df['preprocessed_text'].apply(classify_text)
+#
+# output_file = 'output.xlsx'
+#
+# df[['text', 'preprocessed_text', 'category']].to_excel(output_file, sheet_name="данные", index=False)
 
 

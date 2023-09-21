@@ -8,6 +8,7 @@ from nltk.stem import WordNetLemmatizer
 import pymorphy2
 
 
+nltk.download('punkt')
 
 def preprocess_text(text):
     text = re.sub(r'http\S+', '', text)
@@ -28,14 +29,15 @@ def preprocess_text(text):
     return ' '.join(lemmatized_tokens)
 
 
-def get_preprocessed_df(row_count=5):
-    print("preprocessing started")
-
-    df = pd.read_csv('hackatone/data.csv')
-    df['text'] = df['text'].astype(str)
-
-    df = df.head(row_count)
-    df['preprocessed_text'] = df['text'].apply(preprocess_text)
-
-    print("preprocessing ended")
-    return df
+#
+# def get_preprocessed_df(row_count=5):
+#     print("preprocessing started")
+#
+#     df = pd.read_csv('data.csv')
+#     df['text'] = df['text'].astype(str)
+#
+#     df = df.head(row_count)
+#     df['preprocessed_text'] = df['text'].apply(preprocess_text)
+#
+#     print("preprocessing ended")
+#     return df
