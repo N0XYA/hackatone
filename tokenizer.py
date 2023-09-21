@@ -8,15 +8,15 @@ from nltk.stem import WordNetLemmatizer
 import pymorphy2
 
 
-
 def preprocess_text(text):
-    text = re.sub(r'http\S+', '', text)
     text = emoji.demojize(text)
+    text = re.sub(r'http\S+', '', text)
     text = re.sub(r':[a-z_]+:', '', text)
+    text = re.sub(r'\d+', '', text)
+    text = re.sub(r'[!\"#$%&\'()*+,\-./:;<=>?@[\\]^_`{|}~»«]', '', text)
     text = text.translate(str.maketrans('', '', string.punctuation)) 
     
     tokens = nltk.word_tokenize(text, language='russian')
-
     tokens = [token.lower() for token in tokens]
 
     stop_words = set(stopwords.words('russian'))
@@ -31,11 +31,13 @@ def preprocess_text(text):
 def get_preprocessed_df(row_count=5):
     print("preprocessing started")
 
-    df = pd.read_csv('hackatone/data.csv')
+    df = pd.read_csv('data.csv', encoding="utf-8")
+    df = df.head(row_count)
+
     df['text'] = df['text'].astype(str)
 
-    df = df.head(row_count)
-    df['preprocessed_text'] = df['text'].apply(preprocess_text)
+    df['text'] = df['text'].apply(preprocess_text)
+    df[['text']].to_csv("data_trunked.csv", index=False, encoding="utf-8")
 
     print("preprocessing ended")
     return df
