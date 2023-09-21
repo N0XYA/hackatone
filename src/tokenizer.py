@@ -7,6 +7,9 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import pymorphy2
 
+nltk.download("punkt")
+nltk.download("stopwords")
+
 
 def preprocess_text(text):
     text = emoji.demojize(text)
@@ -27,6 +30,10 @@ def preprocess_text(text):
 
     return ' '.join(lemmatized_tokens)
 
+
+def tokenize_all(list_str):
+    tokens = [preprocess_text(row) for row in list_str]
+    return tokens
 
 def get_preprocessed_df(row_count=5):
     print("preprocessing started")
