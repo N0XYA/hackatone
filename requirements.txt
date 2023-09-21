@@ -1,0 +1,9 @@
+pandas
+scikit-learn
+nltk
+emoji
+pymorphy2
+fastapi
+uvicorn
+python-multipart
+pyyaml
