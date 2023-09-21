@@ -34,6 +34,9 @@ categories = {
     'Шоубиз': ['знаменитости', 'шоу', 'голливуд', 'кино']
 }
 
+tokenizer = AutoTokenizer.from_pretrained("bert-base-multilingual-cased")
+model = AutoModel.from_pretrained("bert-base-multilingual-cased")
+category_keyword_embeddings = {}
 
 def compute_word_embedding(word):
     input_ids = tokenizer.encode(word, return_tensors='pt', max_length=512, truncation=True)
@@ -42,12 +45,9 @@ def compute_word_embedding(word):
     return output.last_hidden_state.mean(dim=1).squeeze().numpy()
 
 
-category_keyword_embeddings = {}
 for categ, keywords in categories.items():
     keyword_embeddings = np.array([compute_word_embedding(keyword) for keyword in keywords])
     category_keyword_embeddings[categ] = keyword_embeddings.mean(axis=0)
-tokenizer = AutoTokenizer.from_pretrained("bert-base-multilingual-cased")
-model = AutoModel.from_pretrained("bert-base-multilingual-cased")
 
 
 def classify_text(input_text):
