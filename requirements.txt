@@ -5,3 +5,5 @@ emoji
 pymorphy2
 fastapi
 uvicorn
+python-multipart
+pyyaml
