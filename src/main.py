@@ -4,7 +4,7 @@ from fastapi.responses import FileResponse
 import classifier
 import tokenizer
 import pandas as pd
-
+import deduplicator
 
 app = FastAPI()
 
@@ -13,6 +13,9 @@ app = FastAPI()
 def upload_csv(csv_file: UploadFile = File(...)):
     dataframe = pd.read_csv(csv_file.file)
     print("data received")
+    dataframe = deduplicator.remove_duplicates(dataframe)
+    print("deduplicate done!")
+    print("File length:", len(dataframe))
     channel_id = dataframe["channel_id"].tolist()
     news = dataframe["text"].tolist()
     print("tokenize start")
@@ -28,6 +31,9 @@ def upload_csv(csv_file: UploadFile = File(...)):
     #     result[channel_id[i]] = {label : news[i]}
     output = {"text": news, "channel_id": channel_id, "category": labels}
     df = pd.DataFrame(output)
+    df = deduplicator.remove_duplicates(df)
+    print("deduplicate done!")
+    print("File length:", len(dataframe))
     df.to_csv("output_Data.csv", index=False)
     print("File saved!")
     file_path = "output_Data.csv"
