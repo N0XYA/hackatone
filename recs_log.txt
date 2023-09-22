@@ -1,0 +1,13 @@
+pandas
+scikit-learn
+nltk
+emoji
+pymorphy2
+fastapi
+uvicorn
+pydantic
+python-multipart
+pyyaml
+numpy
+transformers
+torch
