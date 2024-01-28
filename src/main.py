@@ -24,11 +24,6 @@ def upload_csv(csv_file: UploadFile = File(...)):
     print("classification start")
     labels = classifier.classify_all(buffer)
     print("classification complete!")
-    # for i in range(len(dataframe)):
-    #     buffer = tokenizer.preprocess_text(news[i])
-    #     label = classifier.classify_text(buffer)
-    #     labels.append(label)
-    #     result[channel_id[i]] = {label : news[i]}
     output = {"text": news, "channel_id": channel_id, "category": labels}
     df = pd.DataFrame(output)
     df = deduplicator.remove_duplicates(df)
